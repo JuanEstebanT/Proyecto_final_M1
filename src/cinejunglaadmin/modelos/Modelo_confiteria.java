@@ -40,7 +40,21 @@ public class Modelo_confiteria extends Conector{
             ps.setInt(6,precio*cant);
             ps.setString(7,fecha.format(date));
             ps.executeUpdate();
-
+            
+            int puntoscliente = 0;
+            
+            ps = con.prepareStatement("select puntos_acum from clientes WHERE ID = ?");
+            ps.setInt(1,id_cliente);
+            rs = ps.executeQuery();
+            if(rs.next()){
+            puntoscliente = rs.getInt("puntos_acum");
+            }
+            
+            ps = con.prepareStatement("UPDATE clientes SET puntos_acum = ? WHERE ID = ?");
+            ps.setInt(1,puntoscliente+5);
+            ps.setInt(2,id_cliente);
+            ps.executeUpdate();
+            
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ package cinejunglaadmin.controlador;
 import cinejunglaadmin.Hash;
 import cinejunglaadmin.modelos.Modelo_admin_clientes;
 import cinejunglaadmin.modelos.Modelo_admin_emp;
+import cinejunglaadmin.modelos.Modelo_admin_funcion;
 import cinejunglaadmin.modelos.Modelo_admin_prod;
 import cinejunglaadmin.modelos.Modelo_admin_usuarios;
 import cinejunglaadmin.modelos.Producto;
@@ -25,7 +26,7 @@ import javax.swing.JOptionPane;
  */
 public class Controlador_admin {
     
-    public Controlador_admin(Pane_admin panel_admin, Modelo_admin_prod model_admin, Producto prod,empleados emp,Modelo_admin_emp modelo_emp,Modelo_admin_usuarios modelo_user, Usuarios usr, Modelo_admin_clientes model_clientes,clientes cli ){
+    public Controlador_admin(Pane_admin panel_admin, Modelo_admin_prod model_admin, Producto prod,empleados emp,Modelo_admin_emp modelo_emp,Modelo_admin_usuarios modelo_user, Usuarios usr, Modelo_admin_clientes model_clientes,clientes cli, Modelo_admin_funcion model_fun){
         
         /*--------------------------Productos---------------------------------------*/
         panel_admin.setVisible(true);
@@ -290,8 +291,64 @@ public class Controlador_admin {
                model_clientes.Transfer_data(panel_admin);
             }
         });
+         /*--------------------------Clientes---------------------------------------*/  
+         /*--------------------------Funciones---------------------------------------*/ 
+         panel_admin.getBntRefrescarfun().addActionListener((e) -> {
+             model_fun.Refrescar(panel_admin);
+         });
+         panel_admin.getJtFunciones().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+               model_fun.Transfer_data(panel_admin);
+            }
+        });
+         panel_admin.getBntBuscarFun().addActionListener((e) -> {
+            String filtro = "";
+            filtro = panel_admin.getTxt_buscarFun().getText();
+            
+            if(model_fun.Buscar(panel_admin, filtro)){}else{
+                JOptionPane.showMessageDialog(panel_admin, "No se encontro registro");
+            }
+         });
+         panel_admin.getBntRealizarfun().addActionListener((e) -> {
+        if(panel_admin.getRb_registarcli1().isSelected()){
+            
+           if(model_fun.Registar(panel_admin)){
+               model_fun.Refrescar(panel_admin);
+               JOptionPane.showMessageDialog(panel_admin, "Exito en el registro");
+               
+           } else {
+               JOptionPane.showMessageDialog(panel_admin, "Fallo en el registro");
+               reset_fun(panel_admin, model_fun);
+           }
+        }else if(panel_admin.getRb_actualizarcli1().isSelected()){
+            
+            if(model_fun.modificar(panel_admin,panel_admin.getLb_IDfun().getText())){
+                model_fun.Refrescar(panel_admin);
+               JOptionPane.showMessageDialog(panel_admin, "Exito en la Modificacion");
+                reset_fun(panel_admin, model_fun);
+            }else{
+                JOptionPane.showMessageDialog(panel_admin, "Fallo en el Modificacion");
+            }
+        }else if(panel_admin.getRb_borrarcli1().isSelected()){
+            
+            if(model_fun.Eliminar(panel_admin)){
+                model_fun.Refrescar(panel_admin);
+                JOptionPane.showMessageDialog(panel_admin, "Exito en la eliminacion");
+                reset_fun(panel_admin, model_fun);
+            }else{
+                 JOptionPane.showMessageDialog(panel_admin, "Fallo en la eliminacion");
+            }
+        }
+        });
+        /*--------------------------Funciones---------------------------------------*/ 
     }
      
+     public void reset_fun(Pane_admin panel_admin, Modelo_admin_funcion model_fun){
+        model_fun.Refrescar(panel_admin);
+        model_fun.limpiar(panel_admin);
+        
+    }  
     
     
     

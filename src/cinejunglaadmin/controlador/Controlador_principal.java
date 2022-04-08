@@ -7,11 +7,13 @@ package cinejunglaadmin.controlador;
 import cinejunglaadmin.Hash;
 import cinejunglaadmin.modelos.Modelo_admin_clientes;
 import cinejunglaadmin.modelos.Modelo_admin_emp;
+import cinejunglaadmin.modelos.Modelo_admin_funcion;
 import cinejunglaadmin.modelos.SqlUsuarios;
 import cinejunglaadmin.modelos.Usuarios;
 import cinejunglaadmin.modelos.Modelo_admin_prod;
 import cinejunglaadmin.modelos.Modelo_admin_usuarios;
 import cinejunglaadmin.modelos.Modelo_confiteria;
+import cinejunglaadmin.modelos.Modelo_taquilla;
 import cinejunglaadmin.modelos.Producto;
 import cinejunglaadmin.modelos.clientes;
 import cinejunglaadmin.modelos.empleados;
@@ -41,6 +43,8 @@ public class Controlador_principal {
         Modelo_admin_usuarios model_usr = new Modelo_admin_usuarios();
         Modelo_admin_clientes model_clientes = new Modelo_admin_clientes();
         Modelo_confiteria modelo_confiteria = new Modelo_confiteria();
+        Modelo_admin_funcion modelo_admin_funcion = new Modelo_admin_funcion();
         Taquilla taquilla = new Taquilla();
-        Controlador_login crlt = new Controlador_login(panel_admin,taquilla, login,modelo_prod,prod,modelo_admin_emp,emp,model_usr,usr,model_clientes,cli,panelConfiteria,modelo_confiteria);
+        Modelo_taquilla modelo_taquilla = new Modelo_taquilla();
+        Controlador_login crlt = new Controlador_login(panel_admin,taquilla, login,modelo_prod,prod,modelo_admin_emp,emp,model_usr,usr,model_clientes,cli,panelConfiteria,modelo_confiteria,modelo_admin_funcion, modelo_taquilla);
 }

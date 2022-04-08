@@ -7,11 +7,13 @@ package cinejunglaadmin.controlador;
 import cinejunglaadmin.Hash;
 import cinejunglaadmin.modelos.Modelo_admin_clientes;
 import cinejunglaadmin.modelos.Modelo_admin_emp;
+import cinejunglaadmin.modelos.Modelo_admin_funcion;
 import cinejunglaadmin.modelos.SqlUsuarios;
 import cinejunglaadmin.modelos.Usuarios;
 import cinejunglaadmin.modelos.Modelo_admin_prod;
 import cinejunglaadmin.modelos.Modelo_admin_usuarios;
 import cinejunglaadmin.modelos.Modelo_confiteria;
+import cinejunglaadmin.modelos.Modelo_taquilla;
 import cinejunglaadmin.modelos.Producto;
 import cinejunglaadmin.modelos.clientes;
 import cinejunglaadmin.modelos.empleados;
@@ -29,7 +31,7 @@ import javax.swing.JOptionPane;
  * @author teban
  */
 public class Controlador_login {
-    public Controlador_login(Pane_admin panel_admin,Taquilla taquilla,Login login,Modelo_admin_prod model_admin, Producto prod,Modelo_admin_emp modelo_emp, empleados emp,Modelo_admin_usuarios model_user,Usuarios usr,Modelo_admin_clientes model_clientes,clientes cli,Confiteria Pane_confi,Modelo_confiteria model_conf){
+    public Controlador_login(Pane_admin panel_admin,Taquilla taquilla,Login login,Modelo_admin_prod model_admin, Producto prod,Modelo_admin_emp modelo_emp, empleados emp,Modelo_admin_usuarios model_user,Usuarios usr,Modelo_admin_clientes model_clientes,clientes cli,Confiteria Pane_confi,Modelo_confiteria model_conf,Modelo_admin_funcion model_fun,Modelo_taquilla model_taquilla){
     login.setVisible(true); 
   
     login.getIngresar().addActionListener((e) -> {
@@ -49,8 +51,8 @@ public class Controlador_login {
                    JOptionPane.showMessageDialog(null, "Bienvenido");
                    login.dispose();
                    switch(mod.getId_tipo()){
-                       case 0: Controlador_admin crtl = new Controlador_admin(panel_admin,model_admin,prod,emp,modelo_emp,model_user,usr,model_clientes,cli); break;
-                       case 1: taquilla.setVisible(true);break;
+                       case 0: Controlador_admin crtl = new Controlador_admin(panel_admin,model_admin,prod,emp,modelo_emp,model_user,usr,model_clientes,cli,model_fun); break;
+                       case 1: Controlador_taquilla crtltaqui = new Controlador_taquilla(model_taquilla, taquilla);break;
                        case 2: Control_Confiteria crtlcon = new Control_Confiteria(Pane_confi,model_conf,usr);break;
                        case 3: break;
                        case 4: break;

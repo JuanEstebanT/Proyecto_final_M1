@@ -50,16 +50,7 @@ public class Taquilla extends javax.swing.JFrame {
             getBox_pel().addItem(rs.getString("Nombre"));
                 
             }
-            int multiplex = getBox_mul().getSelectedIndex()+1;
-            String query3 = "Select funciones.ID, funciones.hora_inicio, funciones.id_sala  from funciones, peliculas where funciones.id_pelicula = peliculas.ID";
-            ps = conn.prepareStatement(query3);
-            rs = ps.executeQuery();
             
-            while(rs.next()){
-            
-            getBox_func().addItem(rs.getString("ID")+" "+rs.getString("hora_inicio")+" "+rs.getString("id_sala"));
-                
-            }
         } catch (Exception e) {
             
         }
@@ -111,6 +102,17 @@ public class Taquilla extends javax.swing.JFrame {
             }
         });
 
+        Box_func.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                Box_funcItemStateChanged(evt);
+            }
+        });
+        Box_func.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Box_funcActionPerformed(evt);
+            }
+        });
+
         jLabel5.setText("Los asientos en las filas E y F son Preferencial");
 
         bnt_ver.setText("Verificar");
@@ -150,9 +152,9 @@ public class Taquilla extends javax.swing.JFrame {
                                     .addComponent(jLabel3)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txt_fila, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGap(18, 18, 18)
                                     .addComponent(txt_numero, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(9, 9, 9))
+                                    .addGap(25, 25, 25))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -212,12 +214,14 @@ public class Taquilla extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(Box_func, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(bnt_ver)
-                    .addComponent(lb_disp)
-                    .addComponent(txt_fila, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_numero, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txt_fila, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_numero, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(bnt_ver)
+                        .addComponent(lb_disp)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addGap(30, 30, 30)
@@ -241,126 +245,21 @@ public class Taquilla extends javax.swing.JFrame {
     }//GEN-LAST:event_Box_pelActionPerformed
 
     private void bnt_verActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnt_verActionPerformed
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Conector con = new Conector();
-        Connection conn = con.conexion();
-        String fila = getTxt_fila().getText().trim();
-        int numero = Integer.parseInt(getTxt_numero().getText().trim());
-        int multiplex = getBox_mul().getSelectedIndex()+1;
-        String func = getBox_func().getSelectedItem().toString();
-        String sala = func.substring(func.length()-1, func.length());
-        System.out.println(sala);
-        int id_sala = Integer.parseInt(sala);
-        int id_silla = 0;
-        String funcc = func.substring(0, 1);
-        int id_funcion = Integer.parseInt(funcc);
-        try {
-            String query = "Select ID from asientos where fila = ? and numero = ? AND id_multiplex = ? and id_sala = ?;";
-            ps = conn.prepareStatement(query);
-            ps.setString(1, fila);
-            ps.setInt(2, numero);
-            ps.setInt(3, multiplex);
-            ps.setInt(4, id_sala);
-            rs = ps.executeQuery();
-            if(rs.next()){
-            id_silla = rs.getInt("ID");
-            
-            }else{
-                
-                System.out.println("Asiento no encontrado");
-                
-            }
-            
-            
-            String query2 = " select id_asiento, id_funcion from asientos_res, reservaciones, funciones, asientos where reservaciones.id_funcion = funciones.id and asientos_res.id_reservacion = reservaciones.id and asientos_res.id_asiento = asientos.id;";
-            ps = conn.prepareStatement(query2);
-            rs = ps.executeQuery();
-            if(rs.next()){
-                   if(id_funcion==rs.getInt(2)){
-                       
-                       if(id_silla == rs.getInt(1)){
-                           getLb_disp().setText("No esta disponible");     
-                       }else{
-                           getLb_disp().setText("Esta disponible");
-                       }
-                       
-                   }else{
-                        getLb_disp().setText("Esta disponible");
-                   }
-            
-            }else{
-                
-                
-                
-            }
-           
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-       if(getTxt_fila().getText().equals("E") || getTxt_fila().getText().equals("F"))
-        getjLabel7().setText("$15000");
-       else getjLabel7().setText("$11000");
+        
     }//GEN-LAST:event_bnt_verActionPerformed
 
     private void bnt_PagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnt_PagoActionPerformed
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Conector con = new Conector();
-        Connection conn = con.conexion();
-        String fila = getTxt_fila().getText().trim();
-        int numero = Integer.parseInt(getTxt_numero().getText().trim());
-        int multiplex = getBox_mul().getSelectedIndex()+1;
-        String func = getBox_func().getSelectedItem().toString();
-        String sala = func.substring(func.length()-1, func.length());
-        System.out.println(sala);
-        int id_sala = Integer.parseInt(sala);
-        int id_silla = 0;
-        String funcc = func.substring(0, 1);
-        int id_funcion = Integer.parseInt(funcc);
-        try {
-             String query = "Select ID from asientos where fila = ? and numero = ? AND id_multiplex = ? and id_sala = ?;";
-            ps = conn.prepareStatement(query);
-            ps.setString(1, fila);
-            ps.setInt(2, numero);
-            ps.setInt(3, multiplex);
-            ps.setInt(4, id_sala);
-            rs = ps.executeQuery();
-            if(rs.next()){
-            id_silla = rs.getInt("ID");
-            
-            }else{
-                
-                System.out.println("Asiento no encontrado");
-                
-            }
-            
-            String query2 = "Insert into reservaciones (id_funcion,id_cliente) value (?,?)";
-            ps = conn.prepareStatement(query2);
-            ps.setInt(1, id_funcion);
-            ps.setInt(2, Integer.parseInt(getTxt_codclii().getText().trim()));
-            ps.executeUpdate();
-            int id_res = 0;
-            
-            
-            
-            String query3 = "Select max(ID) from reservaciones";
-            rs = ps.executeQuery(query3);
-            if(rs.next()){
-                id_res = rs.getInt(1);
-            }
-            System.out.println(id_res);
-            
-            String query4 = "INSERT INTO asientos_res (id_reservacion,id_asiento) value (?,?)";
-            ps = conn.prepareStatement(query4);
-            ps.setInt(1, id_res);
-            ps.setInt(2, id_silla);
-            ps.executeUpdate();
-        } catch (SQLException a) {
-            a.printStackTrace();
-        }
+      
         
     }//GEN-LAST:event_bnt_PagoActionPerformed
+
+    private void Box_funcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Box_funcActionPerformed
+       
+    }//GEN-LAST:event_Box_funcActionPerformed
+
+    private void Box_funcItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_Box_funcItemStateChanged
+        
+    }//GEN-LAST:event_Box_funcItemStateChanged
 
     public JLabel getCod_cli() {
         return Cod_cli;
@@ -389,38 +288,7 @@ public class Taquilla extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Taquilla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Taquilla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Taquilla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Taquilla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Taquilla().setVisible(true);
-            }
-        });
-    }
+    
 
     public JButton getBnt_ver() {
         return bnt_ver;

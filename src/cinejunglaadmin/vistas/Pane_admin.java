@@ -45,6 +45,7 @@ public class Pane_admin extends javax.swing.JFrame {
         Grupo_emp = new javax.swing.ButtonGroup();
         Grupo_prod = new javax.swing.ButtonGroup();
         Grupo_cli = new javax.swing.ButtonGroup();
+        Grupo_fun = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -483,14 +484,9 @@ public class Pane_admin extends javax.swing.JFrame {
         jTabbedPane1.addTab("Usuarios", jPanel3);
 
         jtFunciones.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
+            new Object [][] {},
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Pelicula", "Sala", "Multiplex","Fecha"
             }
         ));
         jScrollPane4.setViewportView(jtFunciones);
@@ -523,10 +519,13 @@ public class Pane_admin extends javax.swing.JFrame {
             }
         });
 
+        Grupo_fun.add(rb_actualizarcli1);
         rb_actualizarcli1.setText("Actualizar");
 
+        Grupo_fun.add(rb_borrarcli1);
         rb_borrarcli1.setText("Borrar");
 
+        Grupo_fun.add(rb_registarcli1);
         rb_registarcli1.setText("Registar");
 
         bntRealizarfun.setText("Realizar");
@@ -550,7 +549,7 @@ public class Pane_admin extends javax.swing.JFrame {
             }
         });
 
-        Box_filtroFun.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nombre", " " }));
+        Box_filtroFun.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID" }));
         Box_filtroFun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Box_filtroFunActionPerformed(evt);
@@ -596,23 +595,23 @@ public class Pane_admin extends javax.swing.JFrame {
                                     .addComponent(txt_IDmulfun, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txt_fechafun, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(134, 134, 134)
-                                .addComponent(bntRealizarfun))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(rb_actualizarcli1)
-                                .addGap(18, 18, 18)
-                                .addComponent(rb_borrarcli1)
-                                .addGap(50, 50, 50)
-                                .addComponent(rb_registarcli1))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(92, 92, 92)
                                 .addComponent(jLabel17)
                                 .addGap(87, 87, 87)
                                 .addComponent(lb_IDfun))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(78, 78, 78)
-                                .addComponent(jLabel23)))))
+                                .addComponent(jLabel23))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(rb_actualizarcli1)
+                                        .addGap(44, 44, 44)
+                                        .addComponent(rb_borrarcli1))
+                                    .addComponent(bntRealizarfun))
+                                .addGap(44, 44, 44)
+                                .addComponent(rb_registarcli1)))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -2150,6 +2149,7 @@ public class Pane_admin extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> Box_tipousr;
     private javax.swing.ButtonGroup Grupo_cli;
     private javax.swing.ButtonGroup Grupo_emp;
+    private javax.swing.ButtonGroup Grupo_fun;
     private javax.swing.ButtonGroup Grupo_prod;
     private javax.swing.JButton Limpiar_emp;
     private javax.swing.JButton bntActualizarusr;
